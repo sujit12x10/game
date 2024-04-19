@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static "js/script.js" %}" defer></script>
+{% endblock %}
+
+{% block content  %}
+    <div class="header-bar">
+        <h2 style="display: inline;">Season {{ season.editon }}</h2>
+        <!-- <a style="font-family: Aclonica;" href="" class="btn btn-sm btn-dark">&#x2190; Go Back</a> -->
+        <div>
+            <a style="font-family: Aclonica;" href="{% url "home" %}" class="btn btn-sm btn-outline-dark">&#x2190; Go Back</a> 
+        </div>
+    </div>
+    <hr>
+        <table class="table mb-4">
+            <tbody>
+                {% for match in matches %}
+                <tr id="match-{{ match.id }}">
+                    
+                    {% if match.winner %}
+                        <td>{{ forloop.counter }}  <b style="color: #3FFF00; font-style: italic;">{{ match.winner }}</b> beat <b style="color: #cc0000; font-style: italic;">{{ match.loser }}</b> </td>
+                    {% else %}
+                        <td>{{forloop.counter }}  <b>{{ match }}</b></td>
+                    {% endif %}
+                    <td>
+                        {% if match.winner %}
+                        {% else %}
+                            <button style="font-family: Aclonica;" class="btn btn-sm btn-outline-dark play-btn h-10" data-match-number="{{ forloop.counter }}" data-id="{{ match.id }}">Play</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+        <a style="font-family: Aclonica;" href="{% url "points_table" season.editon %}" class="btn btn-sm btn-outline-dark">Points Table</a>
+{% endblock %}

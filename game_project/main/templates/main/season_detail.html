@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="header-bar">
+        <h2>Season {{ season.editon }}</h2>
+        <!-- <a style="font-family: Aclonica;" href="" class="btn btn-sm btn-dark">&#x2190; Go Back</a> -->
+        <div>
+            <a style="font-family: Aclonica;" href="{% url "points_table" season.editon %}" class="btn btn-outline-dark">Points Table</a>
+        </div>
+    </div>
+    <hr>
+    <table class="table mt-4 mb-4">
+        <tbody>
+            <tr>
+                <td><b>Winner</b> - <b style="color: #3FFF00; font-style: italic;">{{ season.winner }}</b></td>
+            </tr>
+            <tr>
+                <td><b>Runnerup</b> - <b style="color: #3FFF00; font-style: italic;">{{ season.runnerup }}</b></td>
+            </tr>
+        </tbody>
+    </table> 
+
+    <h4>Playoff</h4>
+    <table class="table mt-3 mb-4">
+        <tbody>
+            {% for match in playoff %}
+            <tr id="match-{{ match.id }}">
+                <td><b>{{ match.discription }}</b></td>
+                <td><b style="color: #3FFF00; font-style: italic;">{{ match.winner }}</b> beat <b style="color: #cc0000; font-style: italic;">{{ match.loser }}</b> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+
+    <h4>League Matches</h4>
+    <table class="table mt-3 mb-4">
+        <tbody>
+            {% for match in matches %}
+            <tr id="match-{{ match.id }}">
+                <td>{{ forloop.revcounter }} <b style="color: #3FFF00; font-style: italic;">{{ match.winner }}</b> beat <b style="color: #cc0000; font-style: italic;">{{ match.loser }}</b> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+{% endblock %}

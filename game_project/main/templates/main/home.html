@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="header-bar">
+        <h2 style="font-family: Racing Sans One, sans-serif; font-size: 30px;">Start Tournament</h2>
+        <div class="dropdown">
+            <button id="season-btn" style="font-family: Aclonica;" class="btn btn-sm btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Season
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% if seasons %}
+                    {% for season in seasons %}
+                        <a style="font-family: Aclonica;" class="dropdown-item" href="{% url "get_matches" season.editon %}">Season {{ season.editon }}</a>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center"><b>Opps! No Seasons</b></p>
+                {% endif %}
+            </div>
+            {% if user.is_authenticated %}
+                <a id="logout-btn" style="font-family: Aclonica;" class="btn btn-sm btn-outline-dark" href="{% url "logout" %}">Logout</a>
+            {% endif %}
+        </div>
+    </div>    
+    <hr>
+
+    {% if user.is_authenticated %}
+        <form action="{% url "matches" %}" method="post">
+            {% csrf_token %}
+            <input required class="form-control mb-4" name="matches" type="text" placeholder="No. of matches">
+            <button style="font-family: Aclonica;" {% if not complete %} disabled {% endif %} type="submit" class="btn btn-outline-dark">New Season</button>
+        </form>
+    {% else %}
+        <a style="font-family: Aclonica;" class="btn btn-sm btn-outline-dark" href="{% url "login" %}">Login</a>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+        {% if not complete %}
+            <p class="mt-4">Complete previous season to start a new one! <a style="text-decoration: none;" href="{% url "matches" %}"><b style="font-size: larger; color: blueviolet;">Here</b></a></p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static "js/script.js" %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <a href="{% url "home" %}" class="btn btn-outline-success btn-sm" style="float: inline-start; font-family: Aclonica;">Home</a>
+        <h5>Season {{ season.editon }}</h5>
+    </div>
+    <div id="main" class="mt-5">
+        <h3 style="display: inline;">PLAYOFFS</h3>
+        
+        <hr>
+        <table class="table mb-4 text-center">
+            <tbody>
+                {% for match in matches %}
+                <tr id="match-{{ match.id }}">
+                    <td>
+                        <b>{{ match.discription }}</b>
+                    </td>
+                    {% if match.winner %}
+                        <td><b style="color: #3FFF00; font-style: italic;">{{ match.winner }}</b> beat <b style="color: #cc0000; font-style: italic;">{{ match.loser }}</b> </td>
+                    {% else %}
+                        <td><b><span id="{{ match.discription }}1">{% if match.team1 %} {{ match.team1 }} {% else %}TBD{% endif %}</span> vs <span id="{{ match.discription }}2">{% if match.team2 %} {{ match.team2 }} {% else %}TBD{% endif %}</span></b></td>
+                    {% endif %}
+                    <td>
+                        {% if match.winner %}
+                        {% else %}
+                            <button style="font-family: Aclonica;" class="btn btn-sm btn-outline-dark playoff-btn h-10" data-match-desc="{{ match.discription }}" data-match-number="{{ forloop.counter }}" data-id="{{ match.id }}">Play</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+    </div>
+{% endblock %}
